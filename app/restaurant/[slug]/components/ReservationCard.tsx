@@ -1,4 +1,10 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function ReservationCard() {
+  const router = useRouter();
+
   return (
     <div className="w-[27%] relative text-reg">
       <div className="fixed w-[15%] bg-white rounded p-3 shadow">
@@ -28,6 +34,7 @@ export default function ReservationCard() {
         <div className="mt-5">
           <button
             className="bg-red-600 rounded w-full px-4 text-white font-bold h-16"
+            onClick={(e) => { router.push('/reserve/some-restaurant') }}
           >
             Find a Time
           </button>
