@@ -1,6 +1,12 @@
+import { Metadata } from "next";
 import SearchBar from "../components/SearchBar";
 import Card from "./components/Card";
 import Sidebar from "./components/Sidebar";
+
+export const metadata: Metadata = {
+  title: 'Search Restaurant - OpenTable',
+  description: 'Some Description',
+}
 
 export default function Search() {
   return (

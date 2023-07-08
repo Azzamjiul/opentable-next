@@ -1,5 +1,11 @@
 import Header from "./components/Header"
 import Form from "./components/Form"
+import { Metadata } from "next"
+
+export const metadata: Metadata = {
+  title: 'Reserve at Milesstone Grill - OpenTable',
+  description: 'Some Description',
+}
 
 export default function Reservation() {
   return (

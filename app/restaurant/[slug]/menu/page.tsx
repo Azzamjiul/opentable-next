@@ -1,5 +1,11 @@
+import { Metadata } from "next";
 import NavBar from "../components/NavBar";
 import MenuCard from "./components/MenuCard";
+
+export const metadata: Metadata = {
+  title: 'Menu of Milesstone Grill - OpenTable',
+  description: 'Some Description',
+}
 
 export default function RestaurantMenu() {
   return (
