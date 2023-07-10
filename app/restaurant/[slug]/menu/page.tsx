@@ -1,27 +1,40 @@
 import { Metadata } from "next";
 import NavBar from "../components/NavBar";
-import MenuCard from "./components/MenuCard";
+import { PrismaClient } from "@prisma/client";
+import Menu from "../components/Menu";
 
 export const metadata: Metadata = {
   title: 'Menu of Milesstone Grill - OpenTable',
   description: 'Some Description',
 }
 
-export default function RestaurantMenu({ params }: { params: { slug: string } }) {
+const prisma = new PrismaClient();
+
+const fetchMenus = async (slug: string) => {
+  const restaurant = await prisma.restaurant.findUnique({
+    where: {
+      slug,
+    },
+    select: {
+      items: true,
+    }
+  })
+
+  if (!restaurant) {
+    throw new Error("");
+  }
+
+  return restaurant.items;
+}
+
+export default async function RestaurantMenu({ params }: { params: { slug: string } }) {
+  const menus = await fetchMenus(params.slug);
+  console.log(menus);
   return (
     <>
       <div className="bg-white w-[100%] rounded p-3 shadow">
-        <NavBar slug={params.slug}/>
-        <main className="bg-white mt-5">
-          <div>
-            <div className="mt-4 pb-1 mb-1">
-              <h1 className="font-bold text-4xl">Menu</h1>
-            </div>
-            <div className="flex flex-wrap justify-between">
-              <MenuCard />
-            </div>
-          </div>
-        </main>
+        <NavBar slug={params.slug} />
+        <Menu menus={menus} />
       </div>
     </>
   );
