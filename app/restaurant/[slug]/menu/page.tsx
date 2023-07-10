@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   description: 'Some Description',
 }
 
-export default function RestaurantMenu() {
+export default function RestaurantMenu({ params }: { params: { slug: string } }) {
   return (
     <>
       <div className="bg-white w-[100%] rounded p-3 shadow">
-        <NavBar />
+        <NavBar slug={params.slug}/>
         <main className="bg-white mt-5">
           <div>
             <div className="mt-4 pb-1 mb-1">
