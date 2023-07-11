@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import SearchBar from "../components/SearchBar";
 import Card from "./components/Card";
 import Sidebar from "./components/Sidebar";
-import { Cuisine, Location, PRICE, PrismaClient } from "@prisma/client";
+import { Cuisine, Location, PRICE, PrismaClient, Review } from "@prisma/client";
 
 export const metadata: Metadata = {
   title: 'Search Restaurant - OpenTable',
@@ -19,6 +19,7 @@ export interface RestaurantCardType {
   price: string;
   cuisine: Cuisine;
   location: Location;
+  reviews: Review[];
 }
 
 interface SearchParams { city?: string, cuisine?: string, price?: PRICE };
@@ -65,6 +66,7 @@ const getRestaurants = async (searchParams: SearchParams): Promise<RestaurantCar
     price: true,
     cuisine: true,
     location: true,
+    reviews: true,
   }
 
   return await prisma.restaurant.findMany({
