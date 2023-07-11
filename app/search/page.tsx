@@ -21,7 +21,42 @@ export interface RestaurantCardType {
   location: Location;
 }
 
-const getRestaurantsByCity = async (city: string | undefined): Promise<RestaurantCardType[]> => {
+interface SearchParams { city?: string, cuisine?: string, price?: PRICE };
+
+const getRestaurants = async (searchParams: SearchParams): Promise<RestaurantCardType[]> => {
+  const where: any = {};
+
+  if (searchParams.city) {
+    const location = {
+      name: {
+        equals: searchParams.city.toLowerCase(),
+      }
+    }
+
+    where.location = location;
+  }
+
+  if (searchParams.cuisine) {
+    const cuisine = {
+      name: {
+        equals: searchParams.cuisine.toLowerCase(),
+      }
+    }
+
+    where.cuisine = cuisine;
+  }
+
+  if (searchParams.price) {
+    const price = {
+      equals: searchParams.price,
+    }
+
+    where.price = price;
+  }
+
+  console.log('searchParams', searchParams);
+  console.log('where', where);
+
   const select = {
     id: true,
     name: true,
@@ -32,18 +67,8 @@ const getRestaurantsByCity = async (city: string | undefined): Promise<Restauran
     location: true,
   }
 
-  if (!city) {
-    return await prisma.restaurant.findMany({ select });
-  }
-
   return await prisma.restaurant.findMany({
-    where: {
-      location: {
-        name: {
-          equals: city.toLowerCase()
-        }
-      }
-    },
+    where,
     select,
   });
 }
@@ -56,8 +81,8 @@ const fetchCuisines = async () => {
   return await prisma.cuisine.findMany();
 }
 
-export default async function Search({ searchParams }: { searchParams: { city?: string, cuisine?: string, price?: PRICE } }) {
-  const restaurants = await getRestaurantsByCity(searchParams.city);
+export default async function Search({ searchParams }: { searchParams: SearchParams }) {
+  const restaurants = await getRestaurants(searchParams);
   const locations = await fetchLocations();
   const cuisines = await fetchCuisines();
 
@@ -68,7 +93,7 @@ export default async function Search({ searchParams }: { searchParams: { city?: 
       </div>
 
       <div className="flex py-4 m-auto w-2/3 justify-between items-start">
-        <Sidebar locations={locations} cuisines={cuisines} searchParams={searchParams}/>
+        <Sidebar locations={locations} cuisines={cuisines} searchParams={searchParams} />
         <div className="w-5/6">
           {restaurants.length ? (
             <>
