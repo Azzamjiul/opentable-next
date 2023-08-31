@@ -55,9 +55,6 @@ const getRestaurants = async (searchParams: SearchParams): Promise<RestaurantCar
     where.price = price;
   }
 
-  console.log('searchParams', searchParams);
-  console.log('where', where);
-
   const select = {
     id: true,
     name: true,

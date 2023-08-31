@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LoginModal from "./LoginModal";
+import LoginModal from "./AuthModal";
 
 export default function NavBar() {
   return (
@@ -11,7 +11,6 @@ export default function NavBar() {
         <div className="flex">
           <LoginModal isSignIn={true}/>
           <LoginModal isSignIn={false}/>
-          {/* <button className="border p-1 px-4 rounded">Sign up</button> */}
         </div>
       </div>
     </nav>
